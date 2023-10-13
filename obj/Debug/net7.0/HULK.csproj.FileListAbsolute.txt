@@ -1,0 +1,15 @@
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\bin\Debug\net7.0\HULK.exe
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\bin\Debug\net7.0\HULK.deps.json
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\bin\Debug\net7.0\HULK.runtimeconfig.json
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\bin\Debug\net7.0\HULK.dll
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\bin\Debug\net7.0\HULK.pdb
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.csproj.AssemblyReference.cache
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.AssemblyInfoInputs.cache
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.AssemblyInfo.cs
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.csproj.CoreCompileInputs.cache
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.dll
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\refint\HULK.dll
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.pdb
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\HULK.genruntimeconfig.cache
+C:\Users\Daniel\Desktop\Nueva carpeta (4)\HULK\obj\Debug\net7.0\ref\HULK.dll
