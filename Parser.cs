@@ -100,12 +100,26 @@ private static Token GetToken(){
           return new Token("And",'&');
         }  
         if(char.IsLetter(currentChar)){
-          Advanced();
+           
+          while(char.IsLetter(currentChar)){
           if(Let.let(text)){
            string test=Let.letin(text);
            text=test;
-           return new Token("let",text);
-          } else {ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Invalid Syntax")); break;}
+           Advanced();
+           
+          } else if(Print.printChek(text)) {
+             string test =Print.print(text);
+             text=test;
+             Advanced();
+            //  return new Token("print",text);
+          } else{ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Invalid Syntax")); break;}
+          }
+          return new Token("void",text);
+           
+        
+        }  
+        if(currentChar==';'){
+          return new Token("end",null);
         }
         
     } 
@@ -135,17 +149,14 @@ private static Token GetToken(){
 if(token.Type=="Integrer"){
     Gramatical(token.Type);
 return (double)(token.Value);
-  } else if(token.Type=="Id"){
-    Gramatical(token.Type);
-    return (double)(token.Value);
   }   else {
+     if(!Print.ParentesisBalanceados(text)){
+     ErrorList.Add(new Error(Error.ErrorType.Syntax,text.Length-1,"Parentesis are not completed"));
+     }
     Gramatical(token.Type);
      result=Result();
-     if(currentToken.Type=="RParen"){
-   Gramatical(currentToken.Type);
-    } else ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Parentesis are not completed")); 
-        
-  return result;
+     Gramatical(token.Type);
+    return result;
    
   }
 
@@ -218,29 +229,45 @@ return (double)(token.Value);
 
   
   public static string Write(string test){
+    if(string.IsNullOrEmpty(test)){
+      return "Empty field";
+    }
     text=test;
     pos=0;
     currentChar=text[pos];
     currentToken=GetToken();
     pos=0;
     currentChar=text[pos];
-    currentToken=GetToken();
+    if(!text.Contains("'")){
+     currentToken=GetToken();
+     } 
+    
+      if(currentToken.Type=="EOF"){
+       if(ErrorList.Any()){
+        Show(); return " ";
+       }
+    } 
+   
     if(!Check()){
     ErrorList.Add(new Error(Error.ErrorType.Expected,text.Length-1,"; is expected"));
     Show();
       return"";
-    } else if(text.Contains('<')||text.Contains('>')||text.Contains('|')||text.Contains('&')){ //si hay booleans llamo si no no{
+    } else if(text.Contains('<')||text.Contains('>')||text.Contains('|')||text.Contains('&')){ 
       var result =Boolean();
       return result.ToString();
-     }  else { 
-               if(!ErrorList.Any()){
+     }  else if(text.Contains("'")){
+           return text.Substring(1,text.Length-2);
+      }  else{
+               if(ErrorList.Any()){
+                Show(); return " ";
+               } else{
                 double result=Result();
-            return result.ToString();
-             } else{  Show(); return " ";
-             
-               
-             }
-             }
+                if(ErrorList.Any()){
+                Show(); return " ";
+               } else return result.ToString();
+               }
+
+      }
   }
   }
               

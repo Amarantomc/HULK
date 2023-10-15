@@ -10,8 +10,8 @@ internal class Program
         while(true) {
            
             Console.Write("> ");
-          string text=Console.ReadLine()!;
-
+         string text=Console.ReadLine()!;
+          
             
             
             string result=Parser.Write(text);
