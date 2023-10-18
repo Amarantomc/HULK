@@ -2,11 +2,11 @@ namespace HULK;
 
 public static class Parser{
     public static string text ;
-    private static int pos=0;
-    private static Token currentToken;
-    private static char currentChar;
+    public static int pos=0;
+    public static Token currentToken;
+    public static char currentChar;
     public static List<Error> ErrorList=new List<Error>();
-    public static Dictionary<char,double> id=new Dictionary<char, double>();
+     
     
      
 
@@ -36,7 +36,7 @@ Advanced();
          for(int i=0;i<ErrorList.Count;i++){
               ErrorList[i].ErrorShow(ErrorList[i]); }
     }
-private static Token GetToken(){
+public static Token GetToken(){
    
     
     while(currentChar!='\0'){
@@ -102,19 +102,43 @@ private static Token GetToken(){
         if(char.IsLetter(currentChar)){
            
           while(char.IsLetter(currentChar)){
-          if(Let.let(text)){
+           if(PI.PICheck(text)){
+            string test =PI.pi(text);
+            text=test;
+           }
+          else if(Let.let(text)){
            string test=Let.letin(text);
            text=test;
            Advanced();
+            
            
           } else if(Print.printChek(text)) {
              string test =Print.print(text);
              text=test;
              Advanced();
-            //  return new Token("print",text);
-          } else{ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Invalid Syntax")); break;}
+              
+             
+          } else if(currentChar=='s'||currentChar=='S'){
+             if(Sin.sinCheck(text)){
+            string test= Sin.sin(text);
+            text=test; 
+            Advanced();
+            } else{ErrorList.Add(new Error(Error.ErrorType.Syntax,1,"Invalid Token"));text=";"; break;}  
+            
+           
+             
+          }  else if( currentChar=='c'||currentChar=='C'){
+           if(Cos.cosCheck(text)){
+           string test= Cos.cos(text);
+            text=test;
+            Advanced();
+           }else{ErrorList.Add(new Error(Error.ErrorType.Syntax,1,"Invalid Token")); text=";"; break;}
+             
+             
+          }  
+          else{ if(!text.Contains("'"))ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Invalid Token"));text=";"; break;}
           }
-          return new Token("void",text);
+          return new Token("functions",text);
            
         
         }  
@@ -149,8 +173,8 @@ private static Token GetToken(){
 if(token.Type=="Integrer"){
     Gramatical(token.Type);
 return (double)(token.Value);
-  }   else {
-     if(!Print.ParentesisBalanceados(text)){
+  }   else if(token.Type=="LParen") {
+     if(!Print.Parentesis(text)){
      ErrorList.Add(new Error(Error.ErrorType.Syntax,text.Length-1,"Parentesis are not completed"));
      }
     Gramatical(token.Type);
@@ -158,7 +182,11 @@ return (double)(token.Value);
      Gramatical(token.Type);
     return result;
    
-  }
+  } else{
+    Token tokens =new Token("Integrer",text);
+    currentToken=tokens;
+    return double.Parse(text.Substring(0,text.Length-1));
+  } 
 
 
 
@@ -180,10 +208,10 @@ return (double)(token.Value);
       double result =Factor(); 
       while(currentToken.Type=="Pow"){
         Gramatical(currentToken.Type);
-        result=Math.Pow(result,Factor());// Falla
+        result=Math.Pow(result,Factor()); 
       } return result;
     }
- private static double Result(){// PLUS MIN Hecho segun tabla de importancia
+ public static double Result(){// PLUS MIN Hecho segun tabla de importancia
                         // la mas arriba de la tabla es la menos importante de presedencia
       double result=Term();
     while(currentToken.Type=="Plus"||currentToken.Type=="Min"){
@@ -231,7 +259,8 @@ return (double)(token.Value);
   public static string Write(string test){
     if(string.IsNullOrEmpty(test)){
       return "Empty field";
-    }
+    } 
+    ErrorList.Clear();
     text=test;
     pos=0;
     currentChar=text[pos];
@@ -242,31 +271,30 @@ return (double)(token.Value);
      currentToken=GetToken();
      } 
     
-      if(currentToken.Type=="EOF"){
+      if(currentToken.Type=="EOF"||currentToken.Type=="end"){
        if(ErrorList.Any()){
         Show(); return " ";
        }
     } 
    
     if(!Check()){
-    ErrorList.Add(new Error(Error.ErrorType.Expected,text.Length-1,"; is expected"));
+    ErrorList.Add(new Error(Error.ErrorType.Expected,text.Length,"; is expected"));
     Show();
       return"";
-    } else if(text.Contains('<')||text.Contains('>')||text.Contains('|')||text.Contains('&')){ 
-      var result =Boolean();
+    } else if(!ErrorList.Any()){ 
+       if(text.Contains('<')||text.Contains('>')||text.Contains('|')||text.Contains('&')) {
+       var result =Boolean(); 
       return result.ToString();
-     }  else if(text.Contains("'")){
+       }
+       if(text.Contains("'")){
            return text.Substring(1,text.Length-2);
-      }  else{
-               if(ErrorList.Any()){
-                Show(); return " ";
-               } else{
+      } else{
                 double result=Result();
-                if(ErrorList.Any()){
-                Show(); return " ";
-               } else return result.ToString();
-               }
+                return result.ToString();
+        }   
 
+      } else{
+        Show(); return " ";
       }
   }
   }

@@ -11,12 +11,12 @@ internal class Program
            
             Console.Write("> ");
          string text=Console.ReadLine()!;
-          
-            
+         
+           
             
             string result=Parser.Write(text);
             Console.WriteLine(result);
-        
+                    
         }
     }
 }

@@ -3,6 +3,7 @@ public class Error{
     public enum ErrorType{
         Expected,
         Syntax,
+        Semantic,
         Unknow,
     } 
      public ErrorType errorType;
