@@ -102,11 +102,8 @@ public static Token GetToken(){
         if(char.IsLetter(currentChar)){
            
           while(char.IsLetter(currentChar)){
-           if(PI.PICheck(text)){
-            string test =PI.pi(text);
-            text=test;
-           }
-          else if(Let.let(text)){
+         
+           if(Let.let(text)){
            string test=Let.letin(text);
            text=test;
            Advanced();
@@ -118,25 +115,48 @@ public static Token GetToken(){
              Advanced();
               
              
-          } else if(currentChar=='s'||currentChar=='S'){
+          } else if(currentChar=='s' ){
              if(Sin.sinCheck(text)){
             string test= Sin.sin(text);
             text=test; 
             Advanced();
-            } else{ErrorList.Add(new Error(Error.ErrorType.Syntax,1,"Invalid Token"));text=";"; break;}  
+            }    
             
            
              
-          }  else if( currentChar=='c'||currentChar=='C'){
+          }  else if( currentChar=='c' ){
            if(Cos.cosCheck(text)){
            string test= Cos.cos(text);
             text=test;
             Advanced();
-           }else{ErrorList.Add(new Error(Error.ErrorType.Syntax,1,"Invalid Token")); text=";"; break;}
+           } 
              
              
-          }  
-          else{ if(!text.Contains("'"))ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Invalid Token"));text=";"; break;}
+          }  else if( currentChar=='l'){
+           if(Log.logCheck(text)){
+           string test= Log.log(text);
+            text=test;
+            Advanced();
+           } 
+             
+             
+          }   
+           else if(PI.PICheck(text)){
+            string test =PI.pi(text);
+            text=test;
+            Advanced();
+            
+           }
+           else{ 
+            if(!text.Contains("'")){
+              ErrorList.Add(new Error(Error.ErrorType.Syntax,pos,"Invalid Token"));
+              text=";"; break;
+            } else break;
+            
+            
+            
+            
+            } Advanced();
           }
           return new Token("functions",text);
            
@@ -264,6 +284,10 @@ return (double)(token.Value);
     text=test;
     pos=0;
     currentChar=text[pos];
+
+     if(!Check()){
+    ErrorList.Add(new Error(Error.ErrorType.Expected,text.Length+1,"; is expected"));
+    }
     currentToken=GetToken();
     pos=0;
     currentChar=text[pos];
@@ -277,11 +301,7 @@ return (double)(token.Value);
        }
     } 
    
-    if(!Check()){
-    ErrorList.Add(new Error(Error.ErrorType.Expected,text.Length,"; is expected"));
-    Show();
-      return"";
-    } else if(!ErrorList.Any()){ 
+    if(!ErrorList.Any()){ 
        if(text.Contains('<')||text.Contains('>')||text.Contains('|')||text.Contains('&')) {
        var result =Boolean(); 
       return result.ToString();

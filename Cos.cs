@@ -16,12 +16,17 @@ public static class Cos{
     }
         int a=text.IndexOf("(");
         int b=text.LastIndexOf(")");
-        if(a==b){
+        if(a==-1||b==-1){
+            if(a==-1){
             Parser.ErrorList.Add(new Error(Error.ErrorType.Syntax,4,"Missing Parentesis"));
-            return " ";
-        }
+            } if(b==-1){
+            Parser.ErrorList.Add(new Error(Error.ErrorType.Syntax,text.Length,"Missing Parentesis"));
+            }
+           return " ";
+        } 
+        
         string c= text.Substring(a+1,b-a-1);
-        if(cosCheck(c)||Sin.sinCheck(c)||PI.PICheck(c)||Let.let(c)||Regex.IsMatch(c,"0-9")){
+        if(cosCheck(c)||Sin.sinCheck(c)||PI.PICheck(c)||Let.let(c)||Regex.IsMatch(c,"[0-9]")){
          Parser.text=c+";";
         Parser.pos=0;
         Parser.currentChar=Parser.text[Parser.pos];
@@ -31,7 +36,7 @@ public static class Cos{
         text=text.Remove(f,b+1);
         text=text.Insert(f,d.ToString());
         return text;
-        } else Parser.ErrorList.Add(new Error(Error.ErrorType.Semantic,a+1,"Diferent types"));
+        } else Parser.ErrorList.Add(new Error(Error.ErrorType.Semantic,a+2,"Diferent types"));
         return " ;";
         
     }
