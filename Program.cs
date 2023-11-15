@@ -10,8 +10,8 @@ internal class Program
         while(true) {
            
             Console.Write("> ");
-         //string text=Console.ReadLine()!;
-         string text="log(-1: -2);";
+         string text=Console.ReadLine()!;
+         //string text="print(sin(2 * PI) ^ 2 + cos(3 * PI / log(4, 64)));";
            
             
             string result=Parser.Write(text);

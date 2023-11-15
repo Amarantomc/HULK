@@ -15,7 +15,7 @@ public static class Sin{
         return " ;";
     }
         int a=text.IndexOf("(");
-        int b=text.LastIndexOf(")");
+        int b=text.IndexOf(")");
             if(a==-1||b==-1){
             if(a==-1){
             Parser.ErrorList.Add(new Error(Error.ErrorType.Syntax,4,"Missing Parentesis"));

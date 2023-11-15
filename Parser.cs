@@ -1,5 +1,5 @@
 namespace HULK;
-
+using System.Text.RegularExpressions;
 public static class Parser{
     public static string text ;
     public static int pos=0;
@@ -101,51 +101,76 @@ public static Token GetToken(){
         }  
         if(char.IsLetter(currentChar)){
            
-          while(char.IsLetter(currentChar)){
+          while(Regex.IsMatch(text,"[ÑñA-Za-z]")){
          
            if(Let.let(text)){
            string test=Let.letin(text);
            text=test;
+           pos=0;
            Advanced();
             
            
           } else if(Print.printChek(text)) {
              string test =Print.print(text);
              text=test;
-             Advanced();
+             if(text.Contains("'")){
+              break;
+             }
+            else Advanced();
               
              
-          } else if(currentChar=='s' ){
-             if(Sin.sinCheck(text)){
-            string test= Sin.sin(text);
-            text=test; 
+          } else if( Function.functionCheck(text)){
+             
+              Function.function(text);
+              text=";";
+              break;
+            
+           }  else if( Log.logCheck(text)){
+            
+           string test= Log.log(text);
+            text=test;
+            pos=0;
             Advanced();
-            }    
+           
+             
+             
+          } 
+          
+          else if( Sin.sinCheck(text) ){
+              
+            string test= Sin.sin(text);
+            text=test;
+            pos=0; 
+            Advanced();
+                
             
            
              
-          }  else if( currentChar=='c' ){
-           if(Cos.cosCheck(text)){
+          }  else if( Cos.cosCheck(text)){
+            
            string test= Cos.cos(text);
             text=test;
+            pos=0;
             Advanced();
-           } 
-             
-             
-          }  else if( currentChar=='l'){
-           if(Log.logCheck(text)){
-           string test= Log.log(text);
-            text=test;
-            Advanced();
-           } 
+           
              
              
           }   
            else if(PI.PICheck(text)){
             string test =PI.pi(text);
             text=test;
+            pos=0;
             Advanced();
             
+           }  else if(Function.id!=null){
+             if(text.Contains(Function.id)){
+            Function.functionValue(text);
+            string test=Function.functionCall();
+            text=test;
+            pos=0;
+            Advanced();
+             }
+           
            }
            else{ 
             if(!text.Contains("'")){
@@ -156,7 +181,7 @@ public static Token GetToken(){
             
             
             
-            } Advanced();
+            }  Advanced();
           }
           return new Token("functions",text);
            
@@ -298,7 +323,7 @@ return (double)(token.Value);
       if(currentToken.Type=="EOF"||currentToken.Type=="end"){
        if(ErrorList.Any()){
         Show(); return " ";
-       }
+       } else return " ";
     } 
    
     if(!ErrorList.Any()){ 

@@ -15,7 +15,7 @@ public static class Cos{
         return " ;";
     }
         int a=text.IndexOf("(");
-        int b=text.LastIndexOf(")");
+        int b=text.IndexOf(")");
         if(a==-1||b==-1){
             if(a==-1){
             Parser.ErrorList.Add(new Error(Error.ErrorType.Syntax,4,"Missing Parentesis"));
@@ -33,7 +33,7 @@ public static class Cos{
         Parser.currentToken=Parser.GetToken();
         double d=Parser.Result();
         d=Math.Cos(d);
-        text=text.Remove(f,b+1);
+        text=text.Remove(f,b-f+1);
         text=text.Insert(f,d.ToString());
         return text;
         } else Parser.ErrorList.Add(new Error(Error.ErrorType.Semantic,a+2,"Diferent types"));
